@@ -18,8 +18,10 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Tajawal',system-ui,sans-serif}
 html,body{height:100%;background:#0d9488}
 iframe#app{position:fixed;inset:0;width:100%;height:100dvh;border:none;background:#f8fafc}
-#instUI{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#134e4a,#0d9488,#0891b2)}
+#instUI{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center;padding:12px;background:transparent;pointer-events:none}
 #instUI.hide{display:none}
+.inst-card{pointer-events:auto;position:relative}
+#instX{position:absolute;top:10px;left:10px;background:#f1f5f9;border:none;width:30px;height:30px;border-radius:50%;font-size:14px;cursor:pointer;color:#64748b}
 .inst-card{background:#fff;border-radius:24px;max-width:400px;width:100%;padding:32px 24px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)}
 .inst-card img.logo{width:84px;height:84px;border-radius:22px;object-fit:cover;margin:0 auto 14px;border:3px solid #ccfbf1}
 .inst-card h1{font-size:19px;font-weight:900;color:#0f172a}
@@ -36,12 +38,13 @@ iframe#app{position:fixed;inset:0;width:100%;height:100dvh;border:none;backgroun
 <iframe id="app" src="https://script.google.com/macros/s/AKfycbznSg31btyy_YvgfO6Xigy_DQvV2i6aHgUcW10nMCD7BqGPf4W1TXSL5kLByO2oVxn0aA/exec?page=admin" title="لوحة التحكم" allow="camera; microphone; geolocation"></iframe>
 <div id="instUI">
   <div class="inst-card">
+    <button id="instX" aria-label="إغلاق">✕</button>
     <img class="logo" src="./icons/icon-192.png" alt="شعار المنصة">
     <h1>لوحة التحكم 🔒</h1>
     <p>متوسطة ابن كثير ببريدة — 1448 هـ<br>ثبّت اللوحة على جوالك لوصول سريع من الشاشة الرئيسية</p>
     <button id="instBtn">📲 تثبيت اللوحة الآن</button>
     <div class="ios-hint" id="iosHint">للتثبيت على الآيفون: اضغط زر <b>المشاركة ⎙</b> ثم <b>«إضافة إلى الشاشة الرئيسية»</b></div>
-    <a class="open-link" href="https://script.google.com/macros/s/AKfycbznSg31btyy_YvgfO6Xigy_DQvV2i6aHgUcW10nMCD7BqGPf4W1TXSL5kLByO2oVxn0aA/exec?page=admin">فتح اللوحة بدون تثبيت ←</a>
+    <button class="open-link" id="openApp" style="background:none;border:none;cursor:pointer;width:100%">تصفح اللوحة بدون تثبيت ←</button>
   </div>
 </div>
 <script>
@@ -53,7 +56,8 @@ iframe#app{position:fixed;inset:0;width:100%;height:100dvh;border:none;backgroun
   if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js').catch(function(){}); }
   if(isStand()){ hide(); return; }
   if(isIOS()){ document.getElementById('iosHint').classList.add('show'); }
-  document.querySelector('.open-link').addEventListener('click', function(){ hide(); });
+  document.getElementById('openApp').addEventListener('click', function(){ hide(); });
+  document.getElementById('instX').addEventListener('click', function(){ hide(); });
   window.addEventListener('beforeinstallprompt', function(e){
     e.preventDefault(); dPrompt = e;
     var b = document.getElementById('instBtn'); b.classList.add('show');
